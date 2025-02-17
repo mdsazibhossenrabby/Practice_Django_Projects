@@ -1,0 +1,228 @@
+            **One Time Setup**
+
+#Install Django with python
+    sudo apt-get install python3-django
+    
+#Setup Django (into a dedicated folder)
+    python3 -m venv <name as your wish>
+    
+#Active the virtual environment(venv)
+    source <name>/bin/activate (specially for linux)
+            OR
+    source <name>/Scripts/activate
+    
+#Install django for the virtual environment
+    pip install django
+
+#Requirements txt file
+    pip freeze > requirements.txt
+
+
+            **For Each Time New Project**
+
+# Creat New project
+    * Create A folder named src, and go to that folder
+    django-admin startproject <project name> 
+# For Running project
+    if project have subfolder then cd to project, other wise no need
+    
+     python3 manage.py runserver
+     
+
+     
+# Creat Super User 
+    . off the server first (Ctrl+C)
+    
+    python manage.py migrate     //create database and sync all settings and apps to the project
+    python manage.py createsuperuser
+    
+    . then enter email,username and password
+    ex: mdsazib
+        mdsazib@gmail.com
+        @sudo123@
+    . then go to localhost/8000/admin
+    
+
+## Views Setup
+
+    1. Create a file named views.py inside the project folder
+    2. Write functions you want to show as a page
+
+        from django.http import HttpResponse
+
+            def FunctionName1(request):
+                return HttpResponse("Text")
+
+            def FunctionName2(request):
+                return HttpResponse("Text")
+
+            def FunctionName3(request):
+                return HttpResponse("Text")
+
+        And so on .................. as many as you want
+
+#Urls setup for Views 
+
+    1. Open urls.py of project folder
+    2. Add Path in urlpattern like ,
+
+        from <project folder name> import views
+        urlpatterns = [
+            path('admin/', admin.site.urls),
+            path('give path name/',views.FunctionName1),
+            path('give path name/',views.FunctionName2),
+            path('give path name/',views.FunctionName3),
+        ]
+
+
+# Creating Dynamic URLs(Routes)
+
+    When we need to go one page to another page or see pages under a page , the url must be Dynamic otherwise it
+    can't route to the page we want to see
+    * There are 3 ways to create Routes
+        1. integer (int) based
+        2. String (str) based
+        3. slug based      // slug means string or word-word-word-............ so on
+        Actually slug and str are same , the can not be use togather
+
+    * Create Dynamic URL through integer based
+        1. Create Function to to show as Dynamic
+
+            def FunctionName(request,give a identifier):
+                return HttpResponse("Text")
+        2. Add Path to urls.py of the project
+
+             path('parent page path name/<int:identifier>',views.FunctionName),
+
+        //When we add any any number with the parent path like localhost:8000/parent path/2
+          then it will show the page under the parent page
+
+    * Create Dynamic URL through string based
+        1. Create Function to to show as Dynamic
+
+            def FunctionName(request,give a identifier):
+                return HttpResponse("Text")
+        2. Add Path to urls.py of the project
+
+             path('parent page path name/<str:identifier>',views.FunctionName),
+
+        //When we add any any word or string with the parent path like localhost:8000/parent path/hello
+          then it will show the page under the parent page
+    
+    * Create Dynamic URL through slug based
+        1. Create Function to to show as Dynamic
+
+            def FunctionName(request,give a identifier):
+                return HttpResponse("Text")
+        2. Add Path to urls.py of the project
+
+             path('parent page path name/<slug:identifier>',views.FunctionName),
+
+        //When we add any any word or string or slug with the parent path like localhost:8000/parent path/3 or /hello  or /hyy-ht2
+          then it will show the page under the parent page
+
+    
+    * Create Dynamic URL through universal based
+        1. Create Function to to show as Dynamic
+
+            def FunctionName(request,give a identifier):
+                return HttpResponse("Text")
+        2. Add Path to urls.py of the project
+
+             path('parent page path name/<identifier>',views.FunctionName),
+
+        //When we add any any word or string or slug or number with the parent path like localhost:8000/parent path/hel-lo
+          then it will show the page under the parent page
+        
+        
+
+
+# HTML Templates Render 
+
+    1. Create a folder named templates where main project folder exist and create html files
+    2. Set Tempaltes Directory in sittings.py of project
+        2.1. Go to settings.py
+        2.2. Find The Section Templates
+        2.3. Add the line   ,
+                'DIRS':[BASE_DIR,"templates"]
+    3. Go to views.py of the project and Create functions for the page and import Render
+
+            from django.shortcuts import render
+            def FunctionName(request):
+                return render(request,"filename.html")
+
+    4. Setup urls for the Funtion in urls.py of the project as shown previous
+
+
+# Passing Data from Django View to a Template
+
+    To passing data from Django Views to Templates , there need dictionary.
+
+    1. Create a Function in views.py and create dictionary inside the functions
+    2. Inside the Dictionary write your desire key-value pairs to pass to the templates
+    3. Configure urls.py for the  functions
+    4. Inside the html file of the templates , write the keys name inside {{ }} to print/show
+       The key's data to the page .
+
+       * views.py 
+
+            def FunctionName(request):
+                variableName={
+                    "Name of key1":"Values",
+                    "Name of key2":"Values",
+                    "Name of key3":"Values",
+                    "Name of key4":"Values",
+                    .....
+                    ......
+                    ........
+                }
+                return render(request,"filename.html",VariableName)
+
+        * urls.py
+
+            set path for the function
+
+
+    ** Use Loop in Templates to Print views.py data
+
+        Inside the HTML file
+
+            {% for i in listName %}
+                {{i}}
+            {% endfor %}
+
+
+
+
+
+
+      ****  App creatrion *****
+      
+      //Inside the FirtProject
+      python3 manage.py startapp FirstApp 
+      
+      //Then add the file App Name at last in the setting.py in the Project Folder . where INSTALLED_APP as 'FirstApp',
+      //then create a folder templates
+      	then creat a html file
+
+##Creating Apps
+
+    *Run the commnad in the src folder
+
+        python3 manage.py startapp <app name>
+    
+    * Add the app name inside the Project's settings.py into INSTALLED_APPS section,
+        '<app name>',
+    
+    * Then Run 
+
+            python3 manage.py makemigrations
+            python3 manage.py migrate
+        //We have to run these two command after changing/updating anything in the project or apps
+
+
+
+##Settings of the Project
+    
+
+  

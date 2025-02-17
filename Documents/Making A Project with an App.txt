@@ -1,0 +1,129 @@
+1. We have to create a project 
+
+        django-admin startproject <project name>
+
+2. Then migrate,
+    To do this , go to Projectfolder/ProjectFolder , then 
+
+        python3 manage.py migrate
+
+3. Since we will use statics (CSS, JS) and Media (photo,vido,pdf etc..)
+   We have configure the Projectfolder/ProjectFolder/settings.py and urls.py
+   then,
+   Add in settings.py,
+    
+        import os
+
+        #At last or end 
+        MEDIA_URL = '/media/'
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+        STATIC_URL = '/static/' 
+        STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+    After that Add in urls.py,
+
+        from django.conf import settings
+        from django.conf.urls.static import static
+
+        urlpatterns = [
+            path('admin/', admin.site.urls),
+            #...
+            #...
+        ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+4. Now Create An App in ProjectFolder,
+
+        python3 manage.py startapp <app name>
+
+    Then also Create static named folder 
+
+
+5. Create a Folder named templates inside the App Folder for html files
+
+6. Add the app name inside the ProjectFolder/ProjectFolder/settings.py under the INSTALLED_APPS
+
+        '<app name>',
+
+    And Add base directori in the TEMPLATES,
+
+        'DIRS':[os.path.join(BASE_DIR),'templates'],
+
+7. Then create urls.py file inside the app and add,
+
+        from djang.urls import path
+        from . import views
+
+        urlpatterns = [
+            path('', views.<a name of views file function>, name='<give a name>'),
+            
+        ] 
+
+8. Add The Line inside the AppFolder/views.py
+
+        from django.shortcuts import render
+
+        def <a name>(request):
+            return render(request,'<main html file name>.html')
+
+8. Then Add the lines in the ProjectFolder/ProjectFolder/urls.py
+
+        from django.urls import path,include
+
+        #inside the urls pattern
+        path('<app name>/', include("<app name>.urls")),     #the page will show in http://127.0.0.1:8000/Chai/
+
+
+
+#### Now Configuring templates for whole project
+
+1. Create templates name folder inside the Project Folder (ProjectFolder/templates)
+    Then Create a html file named layout.hml or base.html
+    Then inside the layout html file always setup the file like this,
+
+        {% load static %}
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>
+                {% block title %}
+                    Chaicenter
+                {% endblock %}
+            </title>
+        </head>
+        <body>
+            <div class="container">
+                {% block content %}
+                
+                {% endblock %}
+
+            </div>
+        </body>
+        </html>
+
+2. For CSS you use any Framework and inject the frame work . for eaxmple,
+    In that case i use Bootstrap frame work for CSS . i copy the library 
+    and past it inside the head tag and before the title tag like,
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    This is a bootstrap library
+
+
+3. Go to AppFolder/templates/htmlfile 
+    Then make the file like,
+
+        {% extends "layout.html" %}
+
+        {% block title %}
+        Write as your wish
+        {% endblock %}
+
+        {% block content %}
+        write as your wish
+        {% endblock %}
+
+4. For Common Navigation bar, go to Bootstrap and copy a Navbar then
+    past it in ProjectFolder/templates/layout.html inside the body

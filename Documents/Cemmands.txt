@@ -1,0 +1,90 @@
+#Creat App inside ProjectFolder
+
+    python3 manage.py startapp <app name>
+
+#ProjectFolder/ProjectFolder/setting.py 
+    add App Name at the last of the INSTALLED_APPS section like :
+        App name is FirstApp then,
+            'FirstApp.apps.FirstappConfig'
+
+
+#Website Show - go to ProjectFolder/ProjectFolder/urls.py
+
+    import a file like :  from django.http import HttpResponse
+
+    Then Define function (above the urlpatterns) to show the design,
+
+        def <function name> (request): 
+            return HttpResponse('Home Page')
+
+    Then add path in urlpatterns like,
+
+        path('',<function name>),       //This page will show at http://127.0.0.1:8000
+
+    ** we can creat multiple function to show multiple designed pages. to do that 
+       we have to create functions like given one and add different path . For Example :
+
+            def <fuction name2>(request):
+                return HttpResponse('Hello Every One')
+            
+            path('p2',<function name2>),     //This page will show at http://127.0.0.1:8000/p2
+
+
+
+
+
+### Do this for Each App :
+
+    1. Go to views.py of the App and import HttpResponse file
+        from django.http import HttpResponse
+
+      Then Create Functions like ,
+
+        def <function name> (request): 
+            return HttpResponse('Home Page')
+
+        def <fuction name2>(request):
+                return HttpResponse('Hello Every One')
+        
+    2. Creat a urls.py inside the App Folder 
+    3. Then import files into the urls.py
+
+        from django.urls import path
+        from .import views
+
+      Then add urlpatterns like ,
+
+        urlpatterns = [
+            path('home/',views.home),
+            path('p/',views.practice),
+        ]
+      
+      And Remove the HttpResponse file and those Paths from ProjectFolder/ProjectFolder/urls.py
+
+    4. Go to ProjectFolder/ProjectFolder/urls.py
+        Then import the files like,
+
+            from django.urls import path,include
+
+        Then add the path in the urlpatterns like,
+
+            path('',include('<App name>.urls')),
+
+
+##Templates Creating for Apps 
+
+    1. Create a Folder named "templates" inside the App Folder
+    2. Creat html file inside the templates folder 
+    3. Go to ProjectFolder/ProjectFolder/settings.py 
+        Then Find TEMPLATES formate and write inside the 'DIR':[] ,
+
+            DIR':[
+                BASE_DIR / '<app name>/templates'
+            ],
+
+    4. Go to ProjectFolder/<app name>/views.py
+
+        Then Changes the return value of the functions like,
+
+            return render(request,'htmlfilename.html')
+        Then Remove the HttpResponse file from import
