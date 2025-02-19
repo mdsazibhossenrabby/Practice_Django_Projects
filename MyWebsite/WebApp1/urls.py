@@ -8,4 +8,5 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('dynamic/<str:page_slug>/', views.dynamic_page, name='dynamic'),
+    
 ]
